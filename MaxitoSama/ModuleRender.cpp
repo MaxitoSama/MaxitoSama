@@ -4,7 +4,6 @@
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModulePlayer.h"
-#include "ModulePlayer2.h"
 #include "ModuleInit.h"
 #include "SDL/include/SDL.h"
 
@@ -64,21 +63,6 @@ update_status ModuleRender::Update()
 				camera.y += speed;
 		}
 	}
-	else
-	{
-		camera.x = 0;
-		if (App->player->position.y <= App->player_2->position.y && camera.y<(1900 * SCREEN_SIZE) - (248 * SCREEN_SIZE)
-			&& App->player->position.y<150 )
-		{
-				camera.y = (150- App->player->position.y)*SCREEN_SIZE;
-		}
-		if(App->player_2->position.y <= App->player->position.y && camera.y<(1900 * SCREEN_SIZE) - (248 * SCREEN_SIZE)
-			&& App->player_2->position.y<150)
-		{
-			camera.y = (150 - App->player_2->position.y)*SCREEN_SIZE;
-		}
-	}
-	
 	return update_status::UPDATE_CONTINUE;
 }
 

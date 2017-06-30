@@ -3,7 +3,7 @@
 
 #include "Globals.h"
 
-#define NUM_MODULES 19
+#define NUM_MODULES 14
 
 class ModuleWindow;
 class ModuleInput;
@@ -41,7 +41,6 @@ public:
 	ModuleFirstScene* first_scene; //li he canviat el nom perque crec que aixi es reconeix millor -pol
 	ModuleSecondScene* scene_map2;
 	ModuleIntermission* inter_scene;
-	ModuleEndScene* end_scene;
 	ModuleCollision* collision;
 	ModulePlayer* player;
 	ModulePlayer2* player_2;

@@ -8,13 +8,11 @@
 #include "ModuleCollision.h"
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
-#include "ModulePlayer2.h"
 #include "ModuleElements1.h"
 #include "ModuleFonts.h"
 #include "ModuleAudio.h"
 #include "ModuleInit.h"
 #include "ModuleFirstScene.h"
-#include "ModuleSecondScene.h"
 #include "ModuleEnemies.h" 
 	
 ModulePlayer::ModulePlayer()
@@ -196,18 +194,6 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update()
 {
 	int speed = 1;
-	if (App->scene_start->player_2 == true )
-	{
-		if (abs(App->player_2->position.y - position.y) >= (248 - 165) && App->player_2->position.y > position.y)
-		{
-			distance = true;;
-		}
-		else
-		{
-			distance = false;
-		}
-
-	}
 
 	//DOWNLEFT
 	if ((App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_STATE::KEY_REPEAT && App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_STATE::KEY_REPEAT ||
@@ -405,28 +391,11 @@ update_status ModulePlayer::Update()
 						App->render->camera.y = 4500;
 					}					
 				}
-				if(App->scene_start->player_2 == true)
-				{
-					position.x =App->player_2->position.x-16;
-					position.y =App->player_2->position.y;
-				}
 				/*else
 				{
 					position.x = App->player_2->position.x - 16;
 					position.y = App->player_2->position.y;
 				}*/
-				
-				
-				if (App->scene_map2->IsEnabled() == true)
-				{
-					if (App->scene_start->player_2 == false)
-					{
-						position.x = 100;
-						position.y = 150;
-						App->render->camera.x = 0;
-						App->render->camera.y = 0;
-					}
-				}
 
 				anim = false;
 				alive = true;
@@ -458,28 +427,11 @@ update_status ModulePlayer::Update()
 					App->enemies->AddEnemy(ENEMY_TYPES::BARRICADE_TROOPER, 10, -1244, Enemy::TURRET);
 					App->enemies->AddEnemy(ENEMY_TYPES::BARRICADE_TROOPER, 117, -1339, Enemy::TURRET);
 				}
-				else if (App->scene_map2->IsEnabled()) {
-					App->scene_map2->addStaticEnemies();
-				}
 			}
 			else
 			{
 				anim = false;
 				Disable();
-				if (App->first_scene->IsEnabled() == true)
-				{
-					App->fade->FadeToBlack((Module*)App->first_scene, (Module*)App->end_scene);
-					App->elements1->num_score = 0;
-					counter = 0;
-				}
-				if(App->scene_map2->IsEnabled()==true)
-				{
-					App->fade->FadeToBlack((Module*)App->scene_map2, (Module*)App->end_scene);
-					App->elements1->num_score = 0;
-					counter = 0;
-				}
-				
-
 			}
 		}
 	}
@@ -506,32 +458,12 @@ update_status ModulePlayer::Update()
 						position.x = position.x + 50;
 						position.y = position.y;
 					}
-					else
-					{
-						position.x = App->player_2->position.x - 16;
-						position.y = App->player_2->position.y;
-					}
 				}
 				water = false;
 				alive = true;
 				only = true;
 			}
-			else
-			{
-				if (App->first_scene->IsEnabled() == true)
-				{
-					App->fade->FadeToBlack((Module*)App->first_scene, (Module*)App->end_scene);
-					App->elements1->num_score = 0;
-					counter = 0;
-				}
-				if (App->scene_map2->IsEnabled() == true)
-				{
-					App->fade->FadeToBlack((Module*)App->scene_map2, (Module*)App->end_scene);
-					App->elements1->num_score = 0;
-					counter = 0;
-				}
-			}
-				
+							
 		}
 	}
 
@@ -605,16 +537,14 @@ update_status ModulePlayer::Update()
 
 	if (App->input->keyboard[SDL_SCANCODE_F2] == KEY_DOWN || App->input->controll[6] == KEY_STATE::KEY_DOWN)
 	{
-		if (god == true && App->player_2->god ==true)
+		if (god == true )
 		{
 			god = false;
-			App->player_2->god = false;
 		}
 			
 		else
 		{
 			god = true;
-			App->player_2->god = true;
 		}
 	}
 	if (god == true)
@@ -637,16 +567,6 @@ update_status ModulePlayer::Update()
 	if(App->first_scene->IsEnabled()==true)
 		App->render->Blit(textures, 80-17, -850, &bridge); 
 
-	if (App->scene_map2->IsEnabled()) {
-		if (App->scene_map2->enteredBossArea) {
-			if (App->scene_map2->finishedBossArea)
-				App->render->Blit(textures, 85 - 22, 1 - 1908 + SCREEN_HEIGHT, &(close_doors.GetCurrentFrame()), 0.75f);
-			else {
-				App->render->Blit(textures, 85 - 22, 1 - 1908 + SCREEN_HEIGHT, &(open_doors.GetCurrentFrame()), 0.75f);
-			}
-		}
-		App->render->Blit(textures, 80, -831, &(bridgerino.GetCurrentFrame()), 0.75f);
-	}
 	return UPDATE_CONTINUE;
 }
 

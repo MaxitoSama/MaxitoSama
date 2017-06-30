@@ -7,22 +7,9 @@
 #include "ModuleParticles.h"
 #include "ModuleTextures.h"
 #include "ModulePlayer.h"
-#include "ModulePlayer2.h"
 #include "ModuleInit.h"
 #include "Enemy.h"
-#include "RifleMan.h"
-#include "PrisonerEnemies.h"
-#include "Prisoner.h"
-#include "BikeEnemy.h"
 #include "ModuleElements1.h"
-#include "Granadier.h"
-#include "BarricadeTrooper.h"
-#include "FinalBossRifleMan.h"
-#include "Commander.h"
-#include "Bike_M2.h"
-#include "CarEnemy.h"
-#include "HoleTrooper.h"
-#include "Bunker.h"
 //#include "Enemy_RedBird.h"
 
 
@@ -84,7 +71,7 @@ update_status ModuleEnemies::Update()
 			}
 			else
 			{
-				if (App->player->anim || App->player_2->anim) {
+				if (App->player->anim ) {
 					enemies[i]->position.x = 100000;
 					enemies[i]->behaviour = Enemy::STAY;
 					enemies_on_action = 0;
@@ -236,7 +223,7 @@ void ModuleEnemies::SpawnEnemy(const EnemyInfo& info)
 	{
 		switch (info.type)
 		{
-		case ENEMY_TYPES::RIFLEMAN:
+		/*case ENEMY_TYPES::RIFLEMAN:
 			enemies[i] = new RifleMan(info.x, info.y);
 			enemies[i]->behaviour = info.behaviour;
 			break;
@@ -283,7 +270,7 @@ void ModuleEnemies::SpawnEnemy(const EnemyInfo& info)
 		case ENEMY_TYPES::BUNKER:
 			enemies[i] = new Bunker(info.x, info.y);
 			enemies[i]->behaviour = info.behaviour;
-			break;
+			break;*/
 		}
 	}
 }

@@ -5,8 +5,6 @@
 #include "ModuleRender.h"
 #include "ModuleInit.h"
 #include "ModuleFirstScene.h"
-#include "ModuleSecondScene.h"
-#include "ModuleEndScene.h"
 #include "ModulePlayer.h" 
 #include "ModuleAudio.h"
 #include "SDL/include/SDL_render.h"
@@ -48,8 +46,6 @@ update_status ModuleFadeToBlack::Update()
 				App->render->camera.x = 0;//Return the camera to the position 0 after disable the module
 				App->render->camera.y = 0;//If we make it before, the position will move because the position of the camera is always rising
 				App->music->Unload(App->first_scene->music);
-				App->music->Unload(App->scene_map2->music);
-				App->music->Unload(App->end_scene->music);
 				to_enable->Enable();
 				total_time += total_time;
 				start_time = SDL_GetTicks();
@@ -64,8 +60,6 @@ update_status ModuleFadeToBlack::Update()
 				current_step = fade_step::none;
 				App->scene_start->fading = false;
 				App->first_scene->fading = false; //we need that because if we pres change fade to black during one fade the next won't work
-				App->scene_map2->fading = false;
-				App->end_scene->fading = false;
 			}
 				
 		} break;
