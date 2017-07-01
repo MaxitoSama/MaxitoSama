@@ -10,7 +10,7 @@
 #include "ModuleInput.h"
 #include "ModuleFadeToBlack.h"
 #include "ModuleFirstScene.h"
-#include "ModuleInit.h"
+#include "Menu.h"
 #include "ModuleAudio.h"
 #include "ModuleEnemies.h"
 #include "ModuleElements1.h"
@@ -25,8 +25,8 @@ ModuleFirstScene::~ModuleFirstScene()
 // Load assets
 bool ModuleFirstScene::Start()
 {
-	LOG("Loading space scene");
-	
+	LOG("Loading Background Map 1");
+	Background_Map = App->textures->Load("assets/Background_Map_1.png");
 	
 	return true;
 }
@@ -34,8 +34,8 @@ bool ModuleFirstScene::Start()
 // UnLoad assets
 bool ModuleFirstScene::CleanUp()
 {
-	LOG("Unloading space scene");
-	//App->textures->Unload(background);
+	LOG("Unloading Background Map 1");
+	App->textures->Unload(Background_Map);
 	
 	return true;
 }
@@ -43,6 +43,7 @@ bool ModuleFirstScene::CleanUp()
 // Update: draw background
 update_status ModuleFirstScene::Update()
 {
+	App->render->Blit(Background_Map,0,0,NULL);
 	
 	return UPDATE_CONTINUE;
 }

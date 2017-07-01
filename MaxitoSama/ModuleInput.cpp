@@ -1,7 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleInput.h"
-#include "ModuleInit.h"
+#include "Menu.h"
 #include "SDL/include/SDL.h"
 #include <iostream>
 
@@ -167,3 +167,12 @@ bool ModuleInput::CleanUp()
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
 }
+
+/*
+mirar aixo per a seleccio al menu
+
+SDL_PumpEvents();
+if (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT)) {
+SDL_Log("Mouse Button 1 (left) is pressed.");
+}
+*/

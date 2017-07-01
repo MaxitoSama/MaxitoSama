@@ -11,7 +11,7 @@
 #include "ModuleElements1.h"
 #include "ModuleFonts.h"
 #include "ModuleAudio.h"
-#include "ModuleInit.h"
+#include "Menu.h"
 #include "ModuleFirstScene.h"
 #include "ModuleEnemies.h" 
 	
@@ -406,10 +406,7 @@ update_status ModulePlayer::Update()
 				App->elements1->pickupBox2 = false;
 				App->elements1->pickupBox3 = false;
 				App->first_scene->box->SetPos(153 - 16, 1332 - 1652);		// 1st BOX
-				App->first_scene->box1->SetPos(187 - 16, 899 - 1652);		// 2nd BOX
-				App->first_scene->box2->SetPos(26 - 16, 255 - 1652);		// 3rd BOX
-				App->first_scene->box3->SetPos(190 - 16, 210 - 1652);		// 4rd BOX
-
+				
 
 				//Add enemies
 				if (App->first_scene->IsEnabled()) {
@@ -629,45 +626,21 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2) {
 	if (c2->type == COLLIDER_GRENADE_BOX)
 	{
 		if (App->elements1->num_grenades < 100) { //ADDS GRENADES 
-			if (c2->rect.x == App->first_scene->box->rect.x && c2->rect.y == App->first_scene->box->rect.y || c2->rect.x == App->first_scene->box2->rect.x && c2->rect.y == App->first_scene->box2->rect.y) { //CHECKING WHICH BOX IT IS, HOW MANY GRENADES ARE IN IT
+			if (c2->rect.x == App->first_scene->box->rect.x && c2->rect.y == App->first_scene->box->rect.y ) { //CHECKING WHICH BOX IT IS, HOW MANY GRENADES ARE IN IT
 				for (int i = 0; i < 3; ++i) {
 					++App->elements1->num_grenades; 
 				}
 			}			
-			if (c2->rect.x == App->first_scene->box1->rect.x && c2->rect.y == App->first_scene->box1->rect.y) { //CHECKING WHICH BOX IT IS, HOW MANY GRENADES ARE IN IT
-				for (int i = 0; i < 5; ++i) {
-					++App->elements1->num_grenades;
-				}			
-			}
-			if (c2->rect.x == App->first_scene->box3->rect.x && c2->rect.y == App->first_scene->box3->rect.y) { //CHECKING WHICH BOX IT IS, HOW MANY GRENADES ARE IN IT
-				for (int i = 0; i < 1; ++i) {
-					++App->elements1->num_grenades;
-				}
-			}
-		}	
+		}			
+	}
+
 		if (c2->rect.x == App->first_scene->box->rect.x && c2->rect.y == App->first_scene->box->rect.y) { //MOVES THE GRENADE BOX TEXTURE AND COLLIDER AWAY FROM WINDOW
 			App->first_scene->box->SetPos(2000, 0);
 			App->elements1->pickupBox = true;
 		
 		}
-		if (c2->rect.x == App->first_scene->box1->rect.x && c2->rect.y == App->first_scene->box1->rect.y) { //MOVES THE GRENADE BOX TEXTURE AND COLLIDER AWAY FROM WINDOW
-			App->first_scene->box1->SetPos(2000, 0);
-			App->elements1->pickupBox1 = true;
-		
-		}		
-		if (c2->rect.x == App->first_scene->box2->rect.x && c2->rect.y == App->first_scene->box2->rect.y) { //MOVES THE GRENADE BOX TEXTURE AND COLLIDER AWAY FROM WINDOW
-			App->first_scene->box2->SetPos(2000, 0);
-			App->elements1->pickupBox2 = true;
-			
-		}
-		if (c2->rect.x == App->first_scene->box3->rect.x && c2->rect.y == App->first_scene->box3->rect.y) { //MOVES THE GRENADE BOX TEXTURE AND COLLIDER AWAY FROM WINDOW
-			App->first_scene->box3->SetPos(2000, 0);
-			App->elements1->pickupBox3 = true;
-		
-		}
 		
 	}
-}
 
 float ModulePlayer::transitionToDirection(float current_direction, float final_direction) {
 	float speed = 0.1;

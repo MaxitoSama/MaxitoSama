@@ -9,7 +9,7 @@
 #include "ModuleFadeToBlack.h"
 #include "ModuleParticles.h"
 #include "ModuleAudio.h"
-#include "ModuleInit.h"
+#include "Menu.h"
 #include "ModuleEnemies.h"
 #include "ModuleElements1.h"
 #include "ModuleFonts.h"

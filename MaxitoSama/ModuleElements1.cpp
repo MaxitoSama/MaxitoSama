@@ -7,7 +7,7 @@
 #include "ModuleParticles.h"
 #include "ModuleInput.h"
 #include "ModuleFadeToBlack.h"
-#include "ModuleInit.h"
+#include "Menu.h"
 #include "ModuleFirstScene.h"
 #include "ModuleAudio.h"
 #include "ModuleEnemies.h"
