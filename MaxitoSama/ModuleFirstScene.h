@@ -25,15 +25,17 @@ public:
 	SDL_Texture* Background_Map = nullptr;
 
 	Mix_Music* music = NULL;
+
 	Collider* mur1=nullptr;
 	Collider* box = nullptr;
 
 	bool enteredBossArea = false;
 	bool finishedBossArea = false;
 	bool music_boss = false;
+	bool fading = false;
+
 	int final_boss_rand;
 
-	bool fading = false;
 };
 
 #endif // __MODULEFIRSTSCENE_H__

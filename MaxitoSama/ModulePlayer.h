@@ -30,7 +30,9 @@ public:
 public:
 	SDL_Texture* graphics = nullptr;
 	SDL_Texture* textures = nullptr;
+	
 	Mix_Chunk* music = NULL;
+	
 	SDL_Rect bridge;
 
 	Animation* current_animation = nullptr;
@@ -39,9 +41,12 @@ public:
 	Animation right;
 	Animation die;
 	Animation bullet_explosion;
+
 	Collider* Player_Coll;
 	Collider* feetcoll;
+	
 	int font_score = -1;
+	int speed;
 
 
 	enum LastDirection { UP, DOWN, LEFT, RIGHT, UPRIGHT, UPLEFT, DOWNRIGHT, DOWNLEFT};
@@ -53,6 +58,7 @@ public:
 	bool water = false;
 	bool grenade = false;
 	bool distance = false;
+	bool Jump = false;
 	float direction = M_PI * 1.5; //direccio en radiants cap avall
 	bool shooting = false;
 	int shots_fired = 0;

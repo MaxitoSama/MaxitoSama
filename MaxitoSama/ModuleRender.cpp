@@ -53,8 +53,7 @@ update_status ModuleRender::PreUpdate()
 
 update_status ModuleRender::Update()	
 {
-	int speed = SCREEN_SIZE;
-	int a = -1908 + SCREEN_HEIGHT + 128;
+	int speed = SCREEN_SIZE*App->player->speed;
 	
 	if ((App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_STATE::KEY_REPEAT || SDL_GameControllerGetButton(App->input->controller, SDL_CONTROLLER_BUTTON_DPAD_UP) == 1) && App->player->IsEnabled())
 	{

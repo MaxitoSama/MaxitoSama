@@ -71,7 +71,7 @@ bool ModulePlayer::Start()
 	//font_score = App->fonts->Load("fonts/Lletres_1.png", "ABCDEFGHIJKLMNOPQRSTUVWXYZ./\ ", 2);
 
 	
-	position.x = 0;
+	position.x = SCREEN_WIDTH/2;
 	position.y = 215;
 
 	stop = false;
@@ -102,14 +102,14 @@ bool ModulePlayer::CleanUp()
 // Update: draw background
 update_status ModulePlayer::Update()
 {
-	int speed = 1;
+	speed = 2;
+	int current_time = SDL_GetTicks();
+	int last_time = 0;
 
 	//LEFT
 	if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_STATE::KEY_REPEAT)
 	{
-		if (position.x > 0) {
-			position.x -= speed;
-		}
+		position.x -= speed;
 		if (current_animation != &left)
 		{
 			left.Reset();
@@ -120,15 +120,24 @@ update_status ModulePlayer::Update()
 	//RIGHT
 	if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_STATE::KEY_REPEAT)
 	{
-		if (position.x < SCREEN_WIDTH - 20) {
-			position.x += speed;
-		}
+		position.x += speed;
 		if (current_animation != &right)
 		{
 			right.Reset();
 			current_animation = &right;
 		}
 		player_last_direction = RIGHT;
+	}
+
+	//JUMP
+	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_REPEAT)
+	{
+		position.y -= 10;
+		if (current_time<last_time+100)
+		{
+			position.y = 215;
+			last_time = current_time;
+		}
 	}
 	//DOWN
 	if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_STATE::KEY_REPEAT)
@@ -314,14 +323,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2) {
 			position.x -= 1;
 		}
 	}
-	if (c2->type == COLLIDER_LAKE && god==false)
-	{
-		if (alive) {
-			alive = false;
-			App->elements1->num_lives_play_1--;
-			water = true;
-		}
-	}
+	
 	if (c2->type == COLLIDER_ENEMY_SHOT && god == false)
 	{
 		if (alive) {
@@ -330,14 +332,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2) {
 			anim = true;
 		}
 	}
-	if (c2->type == COLLIDER_BULLET_BEHIND_COVER && god == false)
-	{
-		if (alive) {
-			alive = false;
-			App->elements1->num_lives_play_1--;
-			anim = true;
-		}
-	}
+	
 	if (c2->type == COLLIDER_ENEMY && god == false)
 	{
 		if (alive) {
@@ -346,21 +341,16 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2) {
 			anim = true;
 		}
 	}
-	if (c2->type == COLLIDER_GRENADE_BOX)
-	{
-		if (App->elements1->num_grenades < 100) { //ADDS GRENADES 
-			if (c2->rect.x == App->first_scene->box->rect.x && c2->rect.y == App->first_scene->box->rect.y ) { //CHECKING WHICH BOX IT IS, HOW MANY GRENADES ARE IN IT
-				for (int i = 0; i < 3; ++i) {
-					++App->elements1->num_grenades; 
-				}
-			}			
-		}			
-	}
 
 		if (c2->rect.x == App->first_scene->box->rect.x && c2->rect.y == App->first_scene->box->rect.y) { //MOVES THE GRENADE BOX TEXTURE AND COLLIDER AWAY FROM WINDOW
 			App->first_scene->box->SetPos(2000, 0);
 			App->elements1->pickupBox = true;
 		
+		}
+
+		if (c2->type == COLLIDER_FLOOR)
+		{
+			Jump = false;
 		}
 		
 	}

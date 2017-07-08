@@ -27,6 +27,7 @@ bool ModuleFirstScene::Start()
 {
 	LOG("Loading Background Map 1");
 	Background_Map = App->textures->Load("assets/Background_Map_1.png");
+
 	App->player->Enable();
 	
 	return true;
@@ -37,6 +38,8 @@ bool ModuleFirstScene::CleanUp()
 {
 	LOG("Unloading Background Map 1");
 	App->textures->Unload(Background_Map);
+
+	LOG("Unloading Player");
 	App->player->Disable();
 	
 	return true;
@@ -45,7 +48,13 @@ bool ModuleFirstScene::CleanUp()
 // Update: draw background
 update_status ModuleFirstScene::Update()
 {
-	App->render->Blit(Background_Map,0,0,NULL);
+	uint w, h;
+	App->textures->GetSize(Background_Map, w, h);
+
+	for (int i = -1; i < 10; i++)
+	{
+		App->render->Blit(Background_Map, i*w, 0, NULL);
+	}
 	
 	return UPDATE_CONTINUE;
 }
