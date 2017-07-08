@@ -19,85 +19,33 @@ ModulePlayer::ModulePlayer()
 {
 	graphics = NULL;
 	current_animation = NULL;
-	position.x = 0;
-	position.y = 0;
 	
+	//idle animation
+	idle_Stop.PushBack({6,80,46,70});
+	idle_Stop.PushBack({ 116,81,46,70 });
+	idle_Stop.PushBack({ 63,81,46,70 });
+	idle_Stop.PushBack({ 116,81,46,70 });
 
-	// idle animation 
-	idleUP.PushBack({ 0, 0, 48, 70 });
-	idleDown.PushBack({ 0, 0, 48, 70 });
-	idleRight.PushBack({ 0, 0, 48, 70 });
-	idleLeft.PushBack({ 0, 0, 48, 70 });
-	idleRightUP.PushBack({ 0, 0, 48, 70 });
-	idleRightDOWN.PushBack({ 0, 0, 48, 70 });
-	idleLeftUP.PushBack({ 0, 0, 48, 70 });
-	idleLeftDOWN.PushBack({ 0, 0, 48, 70 });
-
-	// Move up
-	up.PushBack({ 331, 28, 29, 26 });
-	up.PushBack({361, 28, 29, 26 });
-	up.PushBack({ 331, 28, 29, 26 });
-	up.PushBack({391, 28, 29, 26 });
-	up.loop = true;  
-	up.speed = 0.1f;
-
-	// Move down
-	down.PushBack({ 421, 28, 29, 26 });
-	down.PushBack({ 451, 28, 29, 26 });
-	down.PushBack({421, 28, 29, 26 });
-	down.PushBack({ 481, 28, 29, 26 });
-	down.loop = true;
-	down.speed = 0.1f;
+	idle_Stop.loop = true;
+	idle_Stop.speed = 0.09f;
 
 	// Move Right
-	right.PushBack({ 0,0,48,70 });
-	right.PushBack({0,0,48,70 });
-	right.PushBack({0,0,48,70 });
-	right.PushBack({ 0,0,48,70 });
+	right.PushBack({ 6,2,46,70 });
+	right.PushBack({61,2,42,70 });
+	right.PushBack({117,2,42,70 });
+	right.PushBack({ 172,2,42,70 });
 
 	right.loop = true;
 	right.speed = 0.1f;
 
 	// Move Left
-	left.PushBack({421,1,29,26 });
-	left.PushBack({451,1,29,26 });
-	left.PushBack({421,1,29,26 });
-	left.PushBack({ 481,1,29,26 });
+	left.PushBack({ 6,2,46,70 });
+	left.PushBack({ 61,2,42,70 });
+	left.PushBack({ 117,2,42,70 });
+	left.PushBack({ 172,2,42,70 });
 
 	left.loop = true;
 	left.speed = 0.1f;
-
-	// Move RightUP;
-	rightUP.PushBack({ 361, 82, 29,26 });
-	rightUP.PushBack({ 391, 82,29,26 });
-	rightUP.PushBack({ 361,82, 29,26 });
-	rightUP.PushBack({ 421,82,29,26 });
-	rightUP.loop = true;
-	rightUP.speed = 0.1f;
-
-	// Move LeftUP
-	leftUP.PushBack({ 361,55, 29,26 });
-	leftUP.PushBack({ 391, 55,29,26 });
-	leftUP.PushBack({ 361,55,29,26 });
-	leftUP.PushBack({ 421,55,29,26 });
-	leftUP.loop = true;
-	leftUP.speed = 0.1f;
-
-	// Move RightDOWN
-	rightDOWN.PushBack({ 361,109, 29,26 });
-	rightDOWN.PushBack({ 391, 109,29,26 });
-	rightDOWN.PushBack({ 361,109,29,26 });
-	rightDOWN.PushBack({ 421,109,29,26 });
-	rightDOWN.loop = true;
-	rightDOWN.speed = 0.1f;
-
-	// Move LeftDOWN
-	leftDOWN.PushBack({ 361,136, 29,26 });
-	leftDOWN.PushBack({ 391, 136,29,26 });
-	leftDOWN.PushBack({ 361,136,29,26 });
-	leftDOWN.PushBack({ 421,136,29,26 });
-	leftDOWN.loop = true;
-	leftDOWN.speed = 0.1f;
 
 	//DIE
 	die.PushBack({331,190,29,26});
@@ -105,36 +53,6 @@ ModulePlayer::ModulePlayer()
 	die.PushBack({ 391,190,29,26 });
 	die.loop = false;
 	die.speed = 0.05f;	
-
-	//lake death
-	waterDie.PushBack({ 421,190,29,26 });
-	waterDie.PushBack({ 451,190,29,26 });
-	waterDie.PushBack({ 481,190,29,26 });
-	waterDie.loop = false;
-	waterDie.speed = 0.1f;
-
-	//grenade throw
-	grenadeThrow.PushBack({ 331,163,29,26 });
-	grenadeThrow.PushBack({ 361,163,29,26 });
-	grenadeThrow.PushBack({ 391,163,29,26 });	
-	grenadeThrow.loop = false;
-	grenadeThrow.speed = 0.1f;
-
-
-	open_doors.PushBack({ 511,1,98,42 });
-	open_doors.PushBack({ 511,44,98,56 });
-	open_doors.PushBack({ 511,101,98,59 });
-	open_doors.speed = 0.1f;
-	open_doors.loop = false;
-
-	close_doors.PushBack({ 511,44,98,56 });
-	close_doors.PushBack({ 511,1,98,42 });
-	close_doors.speed = 0.04f;
-	close_doors.loop = false;
-
-	bridgerino.PushBack({ 1,449,64,70 });
-	bridgerino.speed = 0.1f;
-	bridgerino.loop = false;
 
 }
 
@@ -144,21 +62,17 @@ ModulePlayer::~ModulePlayer()
 // Load assets
 bool ModulePlayer::Start()
 {
-	LOG("Loading player");
-
-
-
+	LOG("Loading Player Sheet");
 	graphics = App->textures->Load("assets/Player_sheet.png");
-	//graphics2= App->textures->Load("assets/Superjoes12.png");
 	
-	//playercoll = App->collision->AddCollider({ position.x+7, position.y, 14, 23 }, COLLIDER_PLAYER,this);
+	LOG("Loading Player Collider");
+	Player_Coll = App->collision->AddCollider({ position.x+7, position.y, 14, 23 }, COLLIDER_PLAYER,this);
 	//feetcoll= App->collision->AddCollider({ position.x+7, position.y, 14, 10 }, COLLIDER_FEET, this);
 	//font_score = App->fonts->Load("fonts/Lletres_1.png", "ABCDEFGHIJKLMNOPQRSTUVWXYZ./\ ", 2);
-	//textures = App->textures->Load("assets/PlaceHolder_Sprites.png");
 
 	
 	position.x = 0;
-	position.y = 0;
+	position.y = 215;
 
 	stop = false;
 	anim = false;
@@ -174,13 +88,14 @@ bool ModulePlayer::Start()
 // Unload assets
 bool ModulePlayer::CleanUp()
 {
-	LOG("Unloading player");
-
+	LOG("Unloading player Sheet");
 	App->textures->Unload(graphics);
-	App->fonts->UnLoad(font_score);
-	App->textures->Unload(textures);
-	if (playercoll != nullptr)
-		playercoll->to_delete = true;
+	//App->fonts->UnLoad(font_score);
+	//App->textures->Unload(textures);
+
+	LOG("Destroying Player Collider");
+	if (Player_Coll != nullptr)
+		Player_Coll->to_delete = true;
 
 	return true;
 }
@@ -188,6 +103,8 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update()
 {
 	int speed = 1;
+
+	//LEFT
 	if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_STATE::KEY_REPEAT)
 	{
 		if (position.x > 0) {
@@ -216,7 +133,7 @@ update_status ModulePlayer::Update()
 	//DOWN
 	if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_STATE::KEY_REPEAT)
 	{
-		if (position.y <SCREEN_HEIGHT - 20) {
+		/*if (position.y <SCREEN_HEIGHT - 20) {
 			position.y += speed;
 		}
 		if (current_animation != &down)
@@ -224,12 +141,12 @@ update_status ModulePlayer::Update()
 			down.Reset();
 			current_animation = &down;
 		}
-		player_last_direction = DOWN;
+		player_last_direction = DOWN;*/
 	}
 	//UP
 	if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_STATE::KEY_REPEAT)
 	{
-		if (position.y > -1864 + SCREEN_HEIGHT) {
+		/*if (position.y > -1864 + SCREEN_HEIGHT) {
 			position.y -= speed;
 		}
 		if (current_animation != &up)
@@ -237,7 +154,7 @@ update_status ModulePlayer::Update()
 			up.Reset();
 			current_animation = &up;
 		}
-		player_last_direction = UP;
+		player_last_direction = UP;*/
 	}
 	////LEFT  <- Oye ho he canviat perque el d'abans era tot lios, crec que ara es mes eficient (pol)
 	//if ((App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_STATE::KEY_REPEAT || App->input->controll[3] == KEY_STATE::KEY_REPEAT))
@@ -346,16 +263,16 @@ update_status ModulePlayer::Update()
 		switch (player_last_direction)
 		{
 		case ModulePlayer::UP:
-			current_animation = &idleUP;
+			current_animation = &idle_Stop;
 			break;
 		case ModulePlayer::DOWN:
-			current_animation = &idleDown;
+			current_animation = &idle_Stop;
 			break;
 		case ModulePlayer::LEFT:
-			current_animation = &idleLeft;
+			current_animation = &idle_Stop;
 			break;
 		case ModulePlayer::RIGHT:
-			current_animation = &idleRight;
+			current_animation = &idle_Stop;
 			break;
 		default:
 			break;
@@ -363,7 +280,7 @@ update_status ModulePlayer::Update()
 	}
 
 // Player Colliders Position
-	//playercoll->SetPos(position.x + 7, position.y);
+	//Player_Coll->SetPos(position.x + 7, position.y);
 	//feetcoll->SetPos(position.x+7 , position.y + 13);
 
 

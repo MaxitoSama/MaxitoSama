@@ -34,34 +34,14 @@ public:
 	SDL_Rect bridge;
 
 	Animation* current_animation = nullptr;
-	Animation idle;
-	Animation idle2;
-	Animation up;
-	Animation down;
+	Animation idle_Stop;
 	Animation left;
 	Animation right;
-	Animation idleUP;
-	Animation idleDown;
-	Animation idleRight;
-	Animation idleLeft;
-	Animation idleRightUP;
-	Animation idleRightDOWN;
-	Animation idleLeftUP;
-	Animation idleLeftDOWN;
-	Animation rightUP;
-	Animation leftUP;
-	Animation rightDOWN;
-	Animation leftDOWN;
 	Animation die;
 	Animation bullet_explosion;
-	Animation waterDie;
-	Animation grenadeThrow;
-	Collider* playercoll;
+	Collider* Player_Coll;
 	Collider* feetcoll;
 	int font_score = -1;
-	Animation open_doors;
-	Animation close_doors;
-	Animation bridgerino;
 
 
 	enum LastDirection { UP, DOWN, LEFT, RIGHT, UPRIGHT, UPLEFT, DOWNRIGHT, DOWNLEFT};

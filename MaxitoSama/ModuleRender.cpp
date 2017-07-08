@@ -55,14 +55,17 @@ update_status ModuleRender::Update()
 {
 	int speed = SCREEN_SIZE;
 	int a = -1908 + SCREEN_HEIGHT + 128;
-	if (App->scene_start->player_2 == false)
+	
+	if ((App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_STATE::KEY_REPEAT || SDL_GameControllerGetButton(App->input->controller, SDL_CONTROLLER_BUTTON_DPAD_UP) == 1) && App->player->IsEnabled())
 	{
-		if ((App->input->keyboard[SDL_SCANCODE_UP] == KEY_STATE::KEY_REPEAT || SDL_GameControllerGetButton(App->input->controller, SDL_CONTROLLER_BUTTON_DPAD_UP) == 1) && App->player->IsEnabled())
-		{
-			if (App->player->position.y == 150 - (camera.y / SCREEN_SIZE) && camera.y<(1900 * SCREEN_SIZE) - (248 * SCREEN_SIZE))
-				camera.y += speed;
-		}
+			camera.x -= speed;
 	}
+	
+	if ((App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_STATE::KEY_REPEAT || SDL_GameControllerGetButton(App->input->controller, SDL_CONTROLLER_BUTTON_DPAD_UP) == 1) && App->player->IsEnabled())
+	{
+		camera.x += speed;
+	}
+
 	return update_status::UPDATE_CONTINUE;
 }
 
