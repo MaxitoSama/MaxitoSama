@@ -27,6 +27,7 @@ bool ModuleFirstScene::Start()
 {
 	LOG("Loading Background Map 1");
 	Background_Map = App->textures->Load("assets/Background_Map_1.png");
+	App->player->Enable();
 	
 	return true;
 }
@@ -36,6 +37,7 @@ bool ModuleFirstScene::CleanUp()
 {
 	LOG("Unloading Background Map 1");
 	App->textures->Unload(Background_Map);
+	App->player->Disable();
 	
 	return true;
 }
