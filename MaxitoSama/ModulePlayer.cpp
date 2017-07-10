@@ -66,8 +66,7 @@ bool ModulePlayer::Start()
 	graphics = App->textures->Load("assets/Player_sheet.png");
 	
 	LOG("Loading Player Collider");
-	Player_Coll = App->collision->AddCollider({ position.x+7, position.y, 14, 23 }, COLLIDER_PLAYER,this);
-	//feetcoll= App->collision->AddCollider({ position.x+7, position.y, 14, 10 }, COLLIDER_FEET, this);
+	Player_Coll = App->collision->AddCollider({ position.x, position.y, 46, 70 }, COLLIDER_PLAYER,this);
 	//font_score = App->fonts->Load("fonts/Lletres_1.png", "ABCDEFGHIJKLMNOPQRSTUVWXYZ./\ ", 2);
 
 	
@@ -103,8 +102,6 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update()
 {
 	speed = 2;
-	int current_time = SDL_GetTicks();
-	int last_time = 0;
 
 	//LEFT
 	if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_STATE::KEY_REPEAT)
@@ -133,11 +130,7 @@ update_status ModulePlayer::Update()
 	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_REPEAT)
 	{
 		position.y -= 10;
-		if (current_time<last_time+100)
-		{
-			position.y = 215;
-			last_time = current_time;
-		}
+		Jump = true;
 	}
 	//DOWN
 	if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_STATE::KEY_REPEAT)
@@ -223,6 +216,10 @@ update_status ModulePlayer::Update()
 	{   //Mes maco que lo de dalt no? (lo de dalt es pot borrar ja que ja no funciona )
 		shooting = true;
 	}
+	if (Jump == true)
+	{
+		position.y += 1;
+	}
 
 
 	/*if (anim == true)
@@ -288,9 +285,8 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-// Player Colliders Position
-	//Player_Coll->SetPos(position.x + 7, position.y);
-	//feetcoll->SetPos(position.x+7 , position.y + 13);
+	// Player Colliders Position
+	Player_Coll->SetPos(position.x, position.y);
 
 
 	// Draw everything --------------------------------------
@@ -342,18 +338,23 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2) {
 		}
 	}
 
-		if (c2->rect.x == App->first_scene->box->rect.x && c2->rect.y == App->first_scene->box->rect.y) { //MOVES THE GRENADE BOX TEXTURE AND COLLIDER AWAY FROM WINDOW
-			App->first_scene->box->SetPos(2000, 0);
-			App->elements1->pickupBox = true;
-		
-		}
-
-		if (c2->type == COLLIDER_FLOOR)
-		{
-			Jump = false;
-		}
-		
+	if (c2->rect.x == App->first_scene->box->rect.x && c2->rect.y == App->first_scene->box->rect.y) { //MOVES THE GRENADE BOX TEXTURE AND COLLIDER AWAY FROM WINDOW
+		App->first_scene->box->SetPos(2000, 0);
+		App->elements1->pickupBox = true;
 	}
+
+	if (c2->type == COLLIDER_FLOOR)
+	{
+		Jump = false;
+	}
+
+	//Jump methode
+	if (c2->type == COLLIDER_FLOOR && Jump==true)
+	{
+		Jump = false;
+	}
+		
+}
 
 float ModulePlayer::transitionToDirection(float current_direction, float final_direction) {
 	float speed = 0.1;

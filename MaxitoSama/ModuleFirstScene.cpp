@@ -28,8 +28,19 @@ bool ModuleFirstScene::Start()
 	LOG("Loading Background Map 1");
 	Background_Map = App->textures->Load("assets/Background_Map_1.png");
 
+	LOG("Loading Player Module");
 	App->player->Enable();
+
+	LOG("Loading Colliders Module");
+	App->collision->Enable();
 	
+
+	//COLLIDERS-------------------------------------------------------------------
+	App->collision->AddCollider({ 0,285,1000,10}, COLLIDER_FLOOR);
+
+
+
+
 	return true;
 }
 
@@ -39,8 +50,11 @@ bool ModuleFirstScene::CleanUp()
 	LOG("Unloading Background Map 1");
 	App->textures->Unload(Background_Map);
 
-	LOG("Unloading Player");
+	LOG("Unloading Player Module");
 	App->player->Disable();
+
+	LOG("Unloading Colliders Module");
+	App->collision->Disable();
 	
 	return true;
 }
