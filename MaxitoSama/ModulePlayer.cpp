@@ -127,9 +127,9 @@ update_status ModulePlayer::Update()
 	}
 
 	//JUMP
-	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_REPEAT)
+	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_REPEAT && Jump==false)
 	{
-		position.y -= 10;
+		position.y -= 100;
 		Jump = true;
 	}
 	//DOWN
@@ -218,7 +218,7 @@ update_status ModulePlayer::Update()
 	}
 	if (Jump == true)
 	{
-		position.y += 1;
+		position.y += 5;
 	}
 
 
@@ -336,16 +336,6 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2) {
 			App->elements1->num_lives_play_1--;
 			anim = true;
 		}
-	}
-
-	if (c2->rect.x == App->first_scene->box->rect.x && c2->rect.y == App->first_scene->box->rect.y) { //MOVES THE GRENADE BOX TEXTURE AND COLLIDER AWAY FROM WINDOW
-		App->first_scene->box->SetPos(2000, 0);
-		App->elements1->pickupBox = true;
-	}
-
-	if (c2->type == COLLIDER_FLOOR)
-	{
-		Jump = false;
 	}
 
 	//Jump methode

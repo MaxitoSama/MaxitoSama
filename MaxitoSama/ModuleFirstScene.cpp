@@ -37,7 +37,7 @@ bool ModuleFirstScene::Start()
 
 	//COLLIDERS-------------------------------------------------------------------
 	App->collision->AddCollider({ 0,285,1000,10}, COLLIDER_FLOOR);
-
+	App->collision->AddCollider({ 500,230,1000,10 }, COLLIDER_FLOOR);
 
 
 
