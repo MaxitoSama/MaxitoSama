@@ -160,66 +160,21 @@ update_status ModulePlayer::Update()
 		}
 		player_last_direction = UP;*/
 	}
-	////LEFT  <- Oye ho he canviat perque el d'abans era tot lios, crec que ara es mes eficient (pol)
-	//if ((App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_STATE::KEY_REPEAT || App->input->controll[3] == KEY_STATE::KEY_REPEAT))
-	//{
-	//	if (current_animation != &left && App->input->keyboard[SDL_SCANCODE_UP] != KEY_STATE::KEY_REPEAT
-	//		&& App->input->keyboard[SDL_SCANCODE_DOWN] != KEY_STATE::KEY_REPEAT  && grenade == false)
-	//		{
-	//			left.Reset();
-	//			current_animation = &left;
-	//		}
-	//	direction = transitionToDirection(direction, M_PI);
-	//	position.x -= speed;
-	//	player_last_direction = LEFT;
-
-	//}
-
-	////RIGHT
-	//else if ((App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_STATE::KEY_REPEAT || App->input->controll[2] == KEY_STATE::KEY_REPEAT)
-	//	&& position.x<=SCREEN_WIDTH-23 && anim == false && water == false)
-	//{
-	//	if (current_animation != &right  && grenade == false)
-	//	{
-	//		right.Reset();
-	//		current_animation = &right;
-	//	}
-	//	direction = transitionToDirection(direction, 2*M_PI);
-	//	position.x += speed;
-	//	player_last_direction = RIGHT;
-	//
-	//}
-	////UP
-	//else if ((App->input->keyboard[SDL_SCANCODE_UP] == KEY_STATE::KEY_REPEAT || App->input->controll[0] == KEY_STATE::KEY_REPEAT)
-	//	&& anim == false && water == false)
-	//{
-	//	if (current_animation != &up && grenade == false)
-	//	{
-	//		up.Reset();
-	//		current_animation = &up;
-	//	}
-	//	direction = transitionToDirection(direction,  1.5 * M_PI);
-	//	
-	//	if(distance == false)
-	//	{
-	//		position.y -= speed;
-	//	}
-	//	player_last_direction = UP;
-
-	//}
 
 	//SHOT 
-	App->particles->bullet.speed.y = sin(direction) * BULLET_SPEED;
-	App->particles->bullet.speed.x = cos(direction) * BULLET_SPEED;
+	
 	shot();
 
-	if (App->input->keyboard[SDL_SCANCODE_O] == KEY_STATE::KEY_DOWN ||
-		App->input->controll[4] == KEY_STATE::KEY_REPEAT)
-	{   //Mes maco que lo de dalt no? (lo de dalt es pot borrar ja que ja no funciona )
+	if (App->input->keyboard[SDL_SCANCODE_Z] == KEY_STATE::KEY_DOWN)
+	{  
 		shooting = true;
 	}
 
-
+	//GRAVITY SIMULATOR
+	if (Jump == false)
+	{
+		position.y += 5;
+	}
 
 	//JUMP METHODE
 	if (Jump == true && fall==false)
@@ -355,41 +310,35 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2) {
 	}
 
 	//Jump methode
-	if (c2->type == COLLIDER_FLOOR && Jump==true)
+	if (c2->type == COLLIDER_FLOOR)
 	{
+		position.y -= 5;
 		Jump = false;
 		fall = false;
 	}
 }
 
-float ModulePlayer::transitionToDirection(float current_direction, float final_direction) {
-	float speed = 0.1;
-	float closer_direction;
-	float margin = 0.15;
-
-	if ((final_direction - current_direction) >= M_PI) {
-		final_direction += 2* M_PI;
-	}
-	if (fabsf(current_direction - final_direction) < margin) {
-		closer_direction = final_direction;
-	}
-	else if (current_direction > (final_direction)  )
-		closer_direction = current_direction - speed;
-	else if (current_direction < (final_direction) )
-		closer_direction = current_direction + speed;
-	else
-  		closer_direction = final_direction;
-
- 	return closer_direction;
-}
-
 void ModulePlayer::shot() {
+	int x, y;
+
+	// Taking the Position of the mouse
+	SDL_GetMouseState(&x, &y);
+
+	//Changing the focus of the mouse (0,0) by default
+	x = x - (SCREEN_WIDTH/2) - (23*SCREEN_SIZE);
+	y = y - position.y-(35*SCREEN_SIZE);
+	
+	//The direction of the bullet is the module of the new mouse position
+	App->particles->bullet.speed.y = y/sqrt(x*x+y*y)*5;
+	App->particles->bullet.speed.x = x/sqrt(x*x+y*y)*5;
+
+	//Creates the Particle
 	if (shots_fired < SHOTS_PER_BURST && shooting == true) {
 		LOG("ShOOTTOODAAA!!!!");
 		if (shot_current_delay < SHOT_DELAY)
 			shot_current_delay++;
 		else {
-			App->particles->AddParticle(App->particles->bullet, position.x + 11, position.y + 3, COLLIDER_PLAYER_SHOT);
+			App->particles->AddParticle(App->particles->bullet, position.x + 23, position.y + 35, COLLIDER_PLAYER_SHOT);
 			shots_fired++;
 			shot_current_delay = 0;
 		}
@@ -399,3 +348,4 @@ void ModulePlayer::shot() {
 		shooting = false;
 	}
 }
+

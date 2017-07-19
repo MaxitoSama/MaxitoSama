@@ -62,6 +62,7 @@ public:
 private:
 
 	SDL_Texture* graphics = nullptr;
+	SDL_Texture* bullets = nullptr;
 	Particle* active[MAX_ACTIVE_PARTICLES];
 	uint last_particle = 0;
 	Mix_Chunk* music;

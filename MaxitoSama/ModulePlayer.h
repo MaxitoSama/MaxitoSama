@@ -27,7 +27,6 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 	float transitionToDirection(float current_direction, float final_direction);
 	void shot();
-	void Newton();
 
 public:
 	SDL_Texture* graphics = nullptr;
@@ -62,7 +61,6 @@ public:
 	bool distance = false;
 	bool Jump = false;
 	bool fall=false;
-	float direction = M_PI * 1.5; //direccio en radiants cap avall
 	bool shooting = false;
 	int shots_fired = 0;
 	int shot_current_delay = 0;

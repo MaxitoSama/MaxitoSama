@@ -61,7 +61,7 @@ ModuleParticles::ModuleParticles()
 
 	//bullets particle
 	bullet.display_dead_animation = true;
-	bullet.anim.PushBack({ 7,304,4,4 });
+	bullet.anim.PushBack({ 7,304,10,10 });
 	bullet.anim.loop = true;
 	bullet.anim.speed = 0.1f;
 	bullet.life = 350;
@@ -107,6 +107,7 @@ bool ModuleParticles::Start()
 {
 	LOG("Loading particles");
 	graphics = App->textures->Load("assets/PlaceHolder_Sprites.png");
+	bullets = App->textures->Load("assets/Shot.png");
 	music = App->music->LoadChunk("assets/Commando_12_Player_Shot.wav");
 
 	return true;
@@ -117,6 +118,7 @@ bool ModuleParticles::CleanUp()
 {
 	LOG("Unloading particles");
 	App->textures->Unload(graphics);
+	App->textures->Unload(bullets);
 
 	for(uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
@@ -146,7 +148,7 @@ update_status ModuleParticles::Update()
 		}
 		else if(SDL_GetTicks() >= p->born)
 		{
-			App->render->Blit(graphics, p->position.x, p->position.y, &(p->anim.GetCurrentFrame()));
+			App->render->Blit(bullets, p->position.x, p->position.y, &(p->anim.GetCurrentFrame()));
 			if(p->fx_played == false)
 			{
 				p->fx_played = true;
