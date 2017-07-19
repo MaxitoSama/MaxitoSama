@@ -27,7 +27,7 @@ ModulePlayer::ModulePlayer()
 	idle_Stop.PushBack({ 116,81,46,70 });
 
 	idle_Stop.loop = true;
-	idle_Stop.speed = 0.09f;
+	idle_Stop.speed = 0.07f;
 
 	// Move Right
 	right.PushBack({ 6,2,46,70 });
