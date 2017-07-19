@@ -74,7 +74,6 @@ update_status ModuleInit::Update()
 		case SDL_MOUSEBUTTONDOWN:
 			mousePress(e.button,Next);
 			break;
-
 		}
 	}
 

@@ -104,6 +104,7 @@ bool ModulePlayer::CleanUp()
 // Update: draw background
 update_status ModulePlayer::Update()
 {
+	SDL_Event e;
 	speed = 2;
 
 	//LEFT
@@ -164,10 +165,17 @@ update_status ModulePlayer::Update()
 	//SHOT 
 	
 	shot();
-
-	if (App->input->keyboard[SDL_SCANCODE_Z] == KEY_STATE::KEY_DOWN)
-	{  
-		shooting = true;
+	
+	while (SDL_PollEvent(&e))
+	{
+		switch (e.type) {
+		case SDL_MOUSEBUTTONDOWN:
+			if (e.button.button == SDL_BUTTON_LEFT)
+			{
+				shooting = true;
+			}
+			break;
+		}
 	}
 
 	//GRAVITY SIMULATOR
@@ -325,8 +333,10 @@ void ModulePlayer::shot() {
 	SDL_GetMouseState(&x, &y);
 
 	//Changing the focus of the mouse (0,0) by default
-	x = x - (SCREEN_WIDTH/2) - (23*SCREEN_SIZE);
-	y = y - position.y-(35*SCREEN_SIZE);
+	x = x - ((SCREEN_WIDTH*SCREEN_SIZE)/2) - (23*SCREEN_SIZE);
+	y = y - position.y*SCREEN_SIZE -35* SCREEN_SIZE;
+	LOG("Position X %d", x);
+	LOG("Position Y %d", y);
 	
 	//The direction of the bullet is the module of the new mouse position
 	App->particles->bullet.speed.y = y/sqrt(x*x+y*y)*5;
