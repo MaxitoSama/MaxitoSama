@@ -5,6 +5,7 @@
 #define GRENADE_SPEED 1.3f
 #define SHOTS_PER_BURST 2
 #define SHOT_DELAY 5
+#define GRAVITY 10;
 
 #include "Module.h"
 #include "Animation.h"
@@ -26,6 +27,7 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 	float transitionToDirection(float current_direction, float final_direction);
 	void shot();
+	void Newton();
 
 public:
 	SDL_Texture* graphics = nullptr;
@@ -59,6 +61,7 @@ public:
 	bool grenade = false;
 	bool distance = false;
 	bool Jump = false;
+	bool fall=false;
 	float direction = M_PI * 1.5; //direccio en radiants cap avall
 	bool shooting = false;
 	int shots_fired = 0;

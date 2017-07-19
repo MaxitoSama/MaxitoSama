@@ -13,7 +13,9 @@
 #include "ModuleAudio.h"
 #include "Menu.h"
 #include "ModuleFirstScene.h"
-#include "ModuleEnemies.h" 
+#include "ModuleEnemies.h"
+
+
 	
 ModulePlayer::ModulePlayer()
 {
@@ -80,6 +82,7 @@ bool ModulePlayer::Start()
 	god = false;
 	counter = 0;
 	only = true;
+	fall = false;
 	
 	return true;
 }
@@ -129,7 +132,6 @@ update_status ModulePlayer::Update()
 	//JUMP
 	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_REPEAT && Jump==false)
 	{
-		position.y -= 100;
 		Jump = true;
 	}
 	//DOWN
@@ -216,9 +218,23 @@ update_status ModulePlayer::Update()
 	{   //Mes maco que lo de dalt no? (lo de dalt es pot borrar ja que ja no funciona )
 		shooting = true;
 	}
-	if (Jump == true)
+
+
+
+	//JUMP METHODE
+	if (Jump == true && fall==false)
 	{
-		position.y += 5;
+		position.y -= 10;
+		counter++;
+		if (counter == 10)
+		{
+			counter = 0;
+			fall = true;
+		}
+	}
+	if (Jump == true && fall == true)
+	{
+		position.y += 10;
 	}
 
 
@@ -342,8 +358,8 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2) {
 	if (c2->type == COLLIDER_FLOOR && Jump==true)
 	{
 		Jump = false;
+		fall = false;
 	}
-		
 }
 
 float ModulePlayer::transitionToDirection(float current_direction, float final_direction) {
