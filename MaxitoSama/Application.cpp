@@ -13,6 +13,7 @@
 #include "ModuleEnemies.h"
 #include "ModuleElements1.h"
 #include "ModuleFonts.h"
+#include "UI.h"
 
 
 Application::Application()
@@ -31,6 +32,7 @@ Application::Application()
 	modules[i++] = collision = new ModuleCollision();
 	modules[i++] = music = new ModuleAudio();
 	modules[i++] = elements1 = new ModuleElements1();
+	modules[i++] = ui = new UI();
 	modules[i++] = fonts = new ModuleFonts();
 }	
 
@@ -51,6 +53,7 @@ bool Application::Init()
 	collision->Disable();
 	enemies->Disable();
 	elements1->Disable();
+	ui->Disable();
 	// ---
 
 	for(int i = 0; i < NUM_MODULES && ret == true; ++i)

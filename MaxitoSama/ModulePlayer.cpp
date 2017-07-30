@@ -9,11 +9,13 @@
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
 #include "ModuleElements1.h"
+#include "UI.h"
 #include "ModuleFonts.h"
 #include "ModuleAudio.h"
 #include "Menu.h"
 #include "ModuleFirstScene.h"
 #include "ModuleEnemies.h"
+#include "UI.h"
 
 
 	
@@ -71,7 +73,6 @@ bool ModulePlayer::Start()
 	Player_Coll = App->collision->AddCollider({ position.x, position.y, 46, 70 }, COLLIDER_PLAYER,this);
 	//font_score = App->fonts->Load("fonts/Lletres_1.png", "ABCDEFGHIJKLMNOPQRSTUVWXYZ./\ ", 2);
 
-	
 	position.x = SCREEN_WIDTH/2;
 	position.y = 215;
 
@@ -335,15 +336,13 @@ void ModulePlayer::shot() {
 	//Changing the focus of the mouse (0,0) by default
 	x = x - ((SCREEN_WIDTH*SCREEN_SIZE)/2) - (23*SCREEN_SIZE);
 	y = y - position.y*SCREEN_SIZE -35* SCREEN_SIZE;
-	LOG("Position X %d", x);
-	LOG("Position Y %d", y);
 	
 	//The direction of the bullet is the module of the new mouse position
 	App->particles->bullet.speed.y = y/sqrt(x*x+y*y)*5;
 	App->particles->bullet.speed.x = x/sqrt(x*x+y*y)*5;
 
 	//Creates the Particle
-	if (shots_fired < SHOTS_PER_BURST && shooting == true) {
+	if (shots_fired < SHOTS_PER_BURST && shooting == true && App->ui->mana>0) {
 		LOG("ShOOTTOODAAA!!!!");
 		if (shot_current_delay < SHOT_DELAY)
 			shot_current_delay++;
@@ -351,6 +350,7 @@ void ModulePlayer::shot() {
 			App->particles->AddParticle(App->particles->bullet, position.x + 23, position.y + 35, COLLIDER_PLAYER_SHOT);
 			shots_fired++;
 			shot_current_delay = 0;
+			App->ui->mana--;
 		}
 	}
 	else {

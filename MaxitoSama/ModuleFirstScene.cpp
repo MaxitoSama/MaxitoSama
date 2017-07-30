@@ -14,6 +14,7 @@
 #include "ModuleAudio.h"
 #include "ModuleEnemies.h"
 #include "ModuleElements1.h"
+#include "UI.h"
 
 
 ModuleFirstScene::ModuleFirstScene()
@@ -33,6 +34,10 @@ bool ModuleFirstScene::Start()
 
 	LOG("Loading Colliders Module");
 	App->collision->Enable();
+
+	LOG("Loading user interface");
+	App->ui->Enable();
+
 	
 
 	//COLLIDERS-------------------------------------------------------------------
@@ -56,6 +61,9 @@ bool ModuleFirstScene::CleanUp()
 	LOG("Unloading Colliders Module");
 	App->collision->Disable();
 	
+	LOG("Unloading user interface");
+	App->ui->Disable();
+
 	return true;
 }
 

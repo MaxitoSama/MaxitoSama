@@ -3,7 +3,7 @@
 
 #define BULLET_SPEED 4
 #define GRENADE_SPEED 1.3f
-#define SHOTS_PER_BURST 2
+#define SHOTS_PER_BURST 1
 #define SHOT_DELAY 5
 #define GRAVITY 10;
 
