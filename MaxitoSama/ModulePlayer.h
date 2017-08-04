@@ -1,11 +1,11 @@
 #ifndef __ModulePlayer_H__
 #define __ModulePlayer_H__
 
-#define BULLET_SPEED 4
+#define BULLET_SPEED 5
 #define GRENADE_SPEED 1.3f
 #define SHOTS_PER_BURST 1
-#define SHOT_DELAY 5
-#define GRAVITY 10;
+#define SHOT_DELAY 0
+#define GRAVITY 0;
 
 #include "Module.h"
 #include "Animation.h"
