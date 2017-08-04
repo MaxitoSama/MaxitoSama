@@ -34,6 +34,7 @@ public:
 	uint mana; 
 	uint last_time;
 	uint current_time;
+	uint reloading_vel;
 
 };
 
