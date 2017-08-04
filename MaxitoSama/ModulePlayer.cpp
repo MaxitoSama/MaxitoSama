@@ -43,10 +43,10 @@ ModulePlayer::ModulePlayer()
 	right.speed = 0.1f;
 
 	// Move Left
-	left.PushBack({ 6,2,46,70 });
-	left.PushBack({ 61,2,42,70 });
-	left.PushBack({ 117,2,42,70 });
-	left.PushBack({ 172,2,42,70 });
+	left.PushBack({ 496,317,46,70 });
+	left.PushBack({ 440,318,42,70 });
+	left.PushBack({ 385,318,42,70 });
+	left.PushBack({ 330,318,42,70 });
 
 	left.loop = true;
 	left.speed = 0.1f;
