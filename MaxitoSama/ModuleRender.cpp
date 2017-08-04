@@ -55,12 +55,12 @@ update_status ModuleRender::Update()
 {
 	int speed = SCREEN_SIZE*App->player->speed;
 	
-	if ((App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_STATE::KEY_REPEAT || SDL_GameControllerGetButton(App->input->controller, SDL_CONTROLLER_BUTTON_DPAD_UP) == 1) && App->player->IsEnabled())
+	if ((App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT || SDL_GameControllerGetButton(App->input->controller, SDL_CONTROLLER_BUTTON_DPAD_UP) == 1) && App->player->IsEnabled())
 	{
 			camera.x -= speed;
 	}
 	
-	if ((App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_STATE::KEY_REPEAT || SDL_GameControllerGetButton(App->input->controller, SDL_CONTROLLER_BUTTON_DPAD_UP) == 1) && App->player->IsEnabled())
+	if ((App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT || SDL_GameControllerGetButton(App->input->controller, SDL_CONTROLLER_BUTTON_DPAD_UP) == 1) && App->player->IsEnabled())
 	{
 		camera.x += speed;
 	}

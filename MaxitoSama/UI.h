@@ -18,6 +18,8 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	void Mana();
+
 public:
 
 	SDL_Texture* Frame;
@@ -29,7 +31,9 @@ public:
 
 
 	uint lives;
-	uint mana;
+	uint mana; 
+	uint last_time;
+	uint current_time;
 
 };
 

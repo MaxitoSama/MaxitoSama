@@ -37,10 +37,13 @@ bool UI::Start()
 
 	lives = 10;
 	mana = 10;
+	last_time = 0;
+	
 
 	Life_frame = {8,2,185,13};
 	Life_piece = {8,17,18,11};
 	Mana_piece= { 8,32,18,11 };
+
 	
 	return true;
 }
@@ -57,6 +60,7 @@ bool UI::CleanUp()
 // Update: draw background
 update_status UI::Update()
 {
+	current_time = SDL_GetTicks();
 	App->render->Blit(Frame,App->player->position.x-(SCREEN_WIDTH / 2),0 ,NULL);
 
 	for (int i = 0; i < lives; i++)
@@ -71,7 +75,18 @@ update_status UI::Update()
 	App->render->Blit(Life, App->player->position.x - (SCREEN_WIDTH / 2) + 78, 20, &Life_frame);
 	App->render->Blit(Life, App->player->position.x - (SCREEN_WIDTH / 2) + 78, 33, &Life_frame);
 
-	
+	Mana();
+
+	if (current_time > last_time + 3000 && mana<10 )
+	{
+		mana++;
+		last_time = current_time;
+	}
 
 	return UPDATE_CONTINUE;
+}
+
+void UI::Mana()
+{
+
 }
