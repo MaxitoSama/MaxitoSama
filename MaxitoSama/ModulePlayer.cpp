@@ -24,14 +24,23 @@ ModulePlayer::ModulePlayer()
 	graphics = NULL;
 	current_animation = NULL;
 	
-	//idle animation
-	idle_Stop.PushBack({6,80,46,70});
-	idle_Stop.PushBack({ 116,81,46,70 });
-	idle_Stop.PushBack({ 63,81,46,70 });
-	idle_Stop.PushBack({ 116,81,46,70 });
+	//idle animation Right
+	idle_Stop_1.PushBack({6,80,46,70});
+	idle_Stop_1.PushBack({ 116,81,46,70 });
+	idle_Stop_1.PushBack({ 63,81,46,70 });
+	idle_Stop_1.PushBack({ 116,81,46,70 });
 
-	idle_Stop.loop = true;
-	idle_Stop.speed = 0.07f;
+	idle_Stop_1.loop = true;
+	idle_Stop_1.speed = 0.07f;
+
+	//idle animation Left
+	idle_Stop_2.PushBack({ 495,397,46,70 });
+	idle_Stop_2.PushBack({ 385,398,46,70 });
+	idle_Stop_2.PushBack({ 438,398,46,70 });
+	idle_Stop_2.PushBack({ 385,398,46,70 });
+
+	idle_Stop_2.loop = true;
+	idle_Stop_2.speed = 0.07f;
 
 	// Move Right
 	right.PushBack({ 6,2,46,70 });
@@ -50,6 +59,24 @@ ModulePlayer::ModulePlayer()
 
 	left.loop = true;
 	left.speed = 0.1f;
+
+	//Scythe Right
+	Scythe_Right.PushBack({11,646,49,56});
+	Scythe_Right.PushBack({68,645,46,58});
+	Scythe_Right.PushBack({11,646,49,56 });
+	Scythe_Right.PushBack({124,649,52,54});
+
+	Scythe_Right.loop = true;
+	Scythe_Right.speed = 0.1f;
+
+	//Scythe Left
+	Scythe_Left.PushBack({ 128,717,49,56 });
+	Scythe_Left.PushBack({74,716,46,58});
+	Scythe_Left.PushBack({ 128,717,49,56 });
+	Scythe_Left.PushBack({ 13,720,52,54 });
+
+	Scythe_Left.loop = true;
+	Scythe_Left.speed = 0.1f;
 
 	//DIE
 	die.PushBack({331,190,29,26});
@@ -117,6 +144,7 @@ update_status ModulePlayer::Update()
 			left.Reset();
 			current_animation = &left;
 		}
+		App->render->Blit(graphics, position.x-30, position.y+15, &(Scythe_Left.GetCurrentFrame()));
 		player_last_direction = LEFT;
 	}
 	//RIGHT
@@ -128,6 +156,7 @@ update_status ModulePlayer::Update()
 			right.Reset();
 			current_animation = &right;
 		}
+		App->render->Blit(graphics, position.x+25, position.y+15, &(Scythe_Right.GetCurrentFrame()));
 		player_last_direction = RIGHT;
 	}
 
@@ -249,16 +278,16 @@ update_status ModulePlayer::Update()
 		switch (player_last_direction)
 		{
 		case ModulePlayer::UP:
-			current_animation = &idle_Stop;
+			current_animation = &idle_Stop_1;
 			break;
 		case ModulePlayer::DOWN:
-			current_animation = &idle_Stop;
+			current_animation = &idle_Stop_1;
 			break;
 		case ModulePlayer::LEFT:
-			current_animation = &idle_Stop;
+			current_animation = &idle_Stop_2;
 			break;
 		case ModulePlayer::RIGHT:
-			current_animation = &idle_Stop;
+			current_animation = &idle_Stop_1;
 			break;
 		default:
 			break;

@@ -36,11 +36,14 @@ public:
 	SDL_Rect bridge;
 
 	Animation* current_animation = nullptr;
-	Animation idle_Stop;
+	Animation idle_Stop_1;
+	Animation idle_Stop_2;
 	Animation left;
 	Animation right;
 	Animation die;
 	Animation bullet_explosion;
+	Animation Scythe_Right;
+	Animation Scythe_Left;
 
 	Collider* Player_Coll;
 	Collider* feetcoll;
