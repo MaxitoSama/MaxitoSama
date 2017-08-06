@@ -34,6 +34,7 @@ public:
 	bool music_boss = false;
 	bool fading = false;
 
+	int Volum;
 	int final_boss_rand;
 
 };

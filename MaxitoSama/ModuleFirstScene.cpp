@@ -38,13 +38,21 @@ bool ModuleFirstScene::Start()
 	LOG("Loading user interface");
 	App->ui->Enable();
 
+	LOG("Loading Music Module and track");
+	App->music->Enable();
+	Volum = 10;
+	music=App->music->Load("assets/Time_2.ogg");
+
 	
 
 	//COLLIDERS-------------------------------------------------------------------
 	App->collision->AddCollider({ 0,285,1000,10}, COLLIDER_FLOOR);
 	App->collision->AddCollider({ 500,230,1000,10 }, COLLIDER_FLOOR);
 
-
+	//MUSIC PLAY
+	LOG("HOli");
+	Mix_PlayMusic(music, 100);
+	
 
 	return true;
 }
@@ -64,12 +72,16 @@ bool ModuleFirstScene::CleanUp()
 	LOG("Unloading user interface");
 	App->ui->Disable();
 
+	LOG("Unloadign Music");
+	//Mix_FreeMusic(music);
+
 	return true;
 }
 
 // Update: draw background
 update_status ModuleFirstScene::Update()
 {
+	Mix_VolumeMusic(Volum);
 	uint w, h;
 	App->textures->GetSize(Background_Map, w, h);
 
@@ -78,5 +90,15 @@ update_status ModuleFirstScene::Update()
 		App->render->Blit(Background_Map, i*w, 0, NULL);
 	}
 	
+	if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_STATE::KEY_DOWN && Volum<=128)
+	{
+		Volum += 8;
+	}
+	if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_STATE::KEY_DOWN && Volum>=0)
+	{
+		Volum -= 8;
+	}
+
+
 	return UPDATE_CONTINUE;
 }

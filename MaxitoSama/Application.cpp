@@ -49,7 +49,7 @@ bool Application::Init()
 	// Disable all stopped modules here
 	player->Disable();
 	first_scene->Disable();
-	//music->Disable();
+	music->Disable();
 	collision->Disable();
 	enemies->Disable();
 	elements1->Disable();
