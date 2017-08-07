@@ -40,7 +40,7 @@ bool ModuleFirstScene::Start()
 
 	LOG("Loading Music Module and track");
 	App->music->Enable();
-	Volum = 10;
+	Volum = 8;
 	music=App->music->Load("assets/Time_2.ogg");
 
 	
