@@ -17,6 +17,7 @@ enum ENEMY_TYPES
 {
 	NO_TYPE,
 	RIFLEMAN,
+	ROBOT_MAN,
 	PRISONER_ENEMIES,
 	PRISONER,
 	BIKEENEMY,
@@ -35,10 +36,11 @@ class Enemy;
 struct EnemyInfo
 {
 	ENEMY_TYPES type = ENEMY_TYPES::NO_TYPE;
-	Enemy::Behaviour behaviour = Enemy::STAY;
-	Enemy::Behaviour previous_behaviour;
 	int x, y;
+	int _path;// integer to define which path the enemy follows
+
 };
+
 
 class ModuleEnemies : public Module
 {
@@ -56,7 +58,7 @@ public:
 
 	Animation* current_animation;
 
-	bool AddEnemy(ENEMY_TYPES type, int x, int y, Enemy::Behaviour behaviour);
+	bool AddEnemy(ENEMY_TYPES type, int x, int y);
 	void eliminateEnemy(Enemy* e, int i);
 	void spawnCommonEnemies();
 

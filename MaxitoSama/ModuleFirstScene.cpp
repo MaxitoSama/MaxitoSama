@@ -43,11 +43,17 @@ bool ModuleFirstScene::Start()
 	Volum = 8;
 	music=App->music->Load("assets/Time_2.ogg");
 
+	LOG("Loading the enemies");
+	App->enemies->Enable();
+
 	
 
 	//COLLIDERS-------------------------------------------------------------------
 	App->collision->AddCollider({ 0,285,1000,10}, COLLIDER_FLOOR);
 	App->collision->AddCollider({ 500,230,1000,10 }, COLLIDER_FLOOR);
+
+	//ENEMIES---------------------------------------------------------------------
+	App->enemies->AddEnemy(ROBOT_MAN, 300, 215);
 
 	//MUSIC PLAY
 	LOG("HOli");
@@ -74,6 +80,9 @@ bool ModuleFirstScene::CleanUp()
 
 	LOG("Unloadign Music");
 	//Mix_FreeMusic(music);
+
+	LOG("Unloading the enemies");
+	App->enemies->Disable();
 
 	return true;
 }

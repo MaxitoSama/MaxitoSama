@@ -10,7 +10,7 @@
 #include "Menu.h"
 #include "Enemy.h"
 #include "ModuleElements1.h"
-//#include "Enemy_RedBird.h"
+#include "ROBOT_MAN.h"
 
 
 ModuleEnemies::ModuleEnemies()
@@ -27,7 +27,7 @@ ModuleEnemies::~ModuleEnemies()
 bool ModuleEnemies::Start()
 {
 	// Create a prototype for each enemy available so we can copy them around
-	sprites = App->textures->Load("assets/PlaceHolder_Sprites.png");
+	sprites = App->textures->Load("assets/Enemy.png");
 
 	srand(time(NULL));
 
@@ -65,7 +65,6 @@ update_status ModuleEnemies::Update()
 			{
 				if (App->player->anim) {
 					enemies[i]->position.x = 100000;
-					enemies[i]->behaviour = Enemy::STAY;
 					enemies_on_action = 0;
 				}
 			}
@@ -73,7 +72,6 @@ update_status ModuleEnemies::Update()
 			{
 				if (App->player->anim ) {
 					enemies[i]->position.x = 100000;
-					enemies[i]->behaviour = Enemy::STAY;
 					enemies_on_action = 0;
 				}
 			}
@@ -122,53 +120,9 @@ void ModuleEnemies::eliminateEnemy(Enemy * e, int i)
 	else {
 		enemies[i]->position.x = 2000;
 		enemies[i]->position.y = 2000;
-		enemies[i]->behaviour = Enemy::STAY;
 		enemies[i] = nullptr;
 		enemies_on_action--;
 	}
-}
-
-void ModuleEnemies::spawnCommonEnemies()
-{
-	
-	if (automated_rifleman_spawn_current_time < automated_rifleman_spawn_time) {
-		automated_rifleman_spawn_current_time+=5;
-	}
-	else {
-		rand_rifle_man_spawn_behaviour = rand() % 8;
-		rand_spawn_y_offset = rand() % 40;
-		switch (rand_rifle_man_spawn_behaviour) {
-		case 0:
-			AddEnemy(RIFLEMAN, 220, App->player->position.y - 200, Enemy::WANDER);
-			break;
-		case 1:
-			AddEnemy(RIFLEMAN, -20, App->player->position.y - 200, Enemy::WANDER);
-			break;
-		case 2:
-			AddEnemy(RIFLEMAN, 230, App->player->position.y - 150 - rand_spawn_y_offset, Enemy::WALK_LEFT);
-			break;
-		case 3:
-			AddEnemy(RIFLEMAN, -20, App->player->position.y - 150 - rand_spawn_y_offset, Enemy::WALK_RIGHT);
-			break;
-		case 4:
-			AddEnemy(GRANADIER, 220, App->player->position.y - 200, Enemy::WANDER);
-			break;
-		case 5:
-			AddEnemy(GRANADIER, -20, App->player->position.y - 200, Enemy::WANDER);
-			break;
-		case 6:
-			AddEnemy(GRANADIER, 230, App->player->position.y - 150 - rand_spawn_y_offset, Enemy::WALK_LEFT);
-			break;
-		case 7:
-			AddEnemy(GRANADIER, -20, App->player->position.y - 150 - rand_spawn_y_offset, Enemy::WALK_RIGHT);
-			break;
-		}
-		enemies_on_action++;
-		automated_rifleman_spawn_current_time = 0;
-	}
-	//if (automated_rifleman_spawn_time > automated_rifleman_min_time) {
-	//	automated_rifleman_spawn_time--;
-	//}
 }
 
 // Called before quitting
@@ -190,7 +144,7 @@ bool ModuleEnemies::CleanUp()
 	return true;
 }
 
-bool ModuleEnemies::AddEnemy(ENEMY_TYPES type, int x, int y, Enemy::Behaviour behaviour = Enemy::STAY)
+bool ModuleEnemies::AddEnemy(ENEMY_TYPES type, int x, int y)
 {
 	bool ret = false;
 
@@ -201,8 +155,6 @@ bool ModuleEnemies::AddEnemy(ENEMY_TYPES type, int x, int y, Enemy::Behaviour be
 			queue[i].type = type;
 			queue[i].x = x;
 			queue[i].y = y;
-			queue[i].behaviour = behaviour;
-			queue[i].previous_behaviour = behaviour;
 			ret = true;
 			break;
 		}
@@ -223,11 +175,10 @@ void ModuleEnemies::SpawnEnemy(const EnemyInfo& info)
 	{
 		switch (info.type)
 		{
-		/*case ENEMY_TYPES::RIFLEMAN:
-			enemies[i] = new RifleMan(info.x, info.y);
-			enemies[i]->behaviour = info.behaviour;
+		case ENEMY_TYPES::ROBOT_MAN:
+			enemies[i] = new Robot_man(info.x, info.y);
 			break;
-		case ENEMY_TYPES::PRISONER_ENEMIES:
+		/*case ENEMY_TYPES::PRISONER_ENEMIES:
 			enemies[i] = new PrisonerEnemies(info.x, info.y);
 			enemies[i]->behaviour = info.behaviour;
 			break;
@@ -277,20 +228,6 @@ void ModuleEnemies::SpawnEnemy(const EnemyInfo& info)
 
 void ModuleEnemies::OnCollision(Collider* c1, Collider* c2)
 {
-
-	if (c2->type == COLLIDER_MAP_LIMIT_FOR_ENEMIES) {
-		for (uint i = 0; i < MAX_ENEMIES; ++i)
-		{
-			if (enemies[i] != nullptr && enemies[i]->GetCollider() == c1)
-			{
-				{
-					enemies[i]->behaviour = Enemy::STAY;
-				}
-				break;
-			}
-		}
-	}
-
 	//esborra l'enemic quan es tocat per una bullet del player
 	if (c2->type == COLLIDER_PLAYER_SHOT || c2->type == COLLIDER_GRENADE_EXPLOSION)
 	{
@@ -305,32 +242,11 @@ void ModuleEnemies::OnCollision(Collider* c1, Collider* c2)
 						if (enemies[i]->type == 1) {
 							enemies[i]->position.x = 2000;
 							enemies[i]->position.y = 2000;
-							enemies[i]->behaviour = Enemy::STAY;
 							enemies[i] = nullptr;
 						}
 						else
 						eliminateEnemy(enemies[i], i);
 					}
-				}
-				break;
-			}
-		}
-	}
-
-	if (c2->type == COLLIDER_WALL) {
-		for (uint i = 0; i < MAX_ENEMIES; ++i)
-		{
-			if (enemies[i] != nullptr && enemies[i]->GetCollider() == c1)
-			{
-				enemies[i]->OnCollision(c2);
-				if (fabsf(enemies[i]->position.DistanceTo({ (float)App->player->position.x,(float)App->player->position.y })) < 10) {
-					
-				}
-				if (enemies[i]->behaviour != Enemy::DODGING_WALL) {
-					rand_bounce_angle = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (M_PI*0.5)));
-					enemies[i]->time_of_collision = 0;
-					enemies[i]->behaviour = Enemy::DODGING_WALL;
-					enemies[i]->walk_direction += (M_PI*0.5)+rand_bounce_angle ;
 				}
 				break;
 			}

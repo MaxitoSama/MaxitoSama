@@ -24,11 +24,6 @@ public:
 	// added
 	float shoot_direction;
 	float walk_direction = M_PI / 2;
-	enum Behaviour { FOLLOW, STAY, WANDER, LEAVE, WALK_LEFT, WALK_RIGHT, DODGING_WALL, HOLD_POSITION, ENTER_DOOR, RUN_FROM_COVER, TURRET, WATER_UP,WATER_HIDDEN };
-	Behaviour behaviour = STAY;
-	Behaviour previous_behaviour;
-	enum AnimDirection { UP, DOWN, LEFT, RIGHT, UPRIGHT, UPLEFT, DOWNRIGHT, DOWNLEFT };
-	AnimDirection anim_direction;
 	bool alive = true;
 	int dead_animation_life;
 	int dead_animation_current_life = 0;
