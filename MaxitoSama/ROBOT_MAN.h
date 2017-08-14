@@ -13,13 +13,21 @@ class Robot_man : public Enemy
 private:
 	Path path;
 	Path path2;
+
 	Animation moveLeft;
+	Animation death_animation;
+
 	iPoint original_pos;
 	fPoint move = { 0.0f,0.0f };
-	Animation death_animation;
+
 	Collider* collider2;
 
 	int counter;
+
+	bool one;
+	bool two;
+
+	float wave = -1.0f;
 
 public:
 	int shot_current_delay = ENEMY_SHOT_DELAY - 1;

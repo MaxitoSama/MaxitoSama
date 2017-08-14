@@ -25,23 +25,32 @@ Robot_man::Robot_man(int x, int y) : Enemy(x, y)
 	path.PushBack({ -0.5f,0.0f }, 100, animation);
 	path2.PushBack({ 0.5f, 0.0f }, 100, animation);
 
-	collider = App->collision->AddCollider({ 0, 0, 59, 20 }, COLLIDER_TYPE::COLLIDER_ENEMY_SHOT, (Module*)App->enemies);
+	collider = App->collision->AddCollider({ 0, 0, 59, 20 }, COLLIDER_TYPE::COLLIDER_ENEMY, (Module*)App->enemies);
 
 	original_pos.x = x;
 	original_pos.y = y;
 
-	counter = 0;
+	one = true;
+	two = false;
 }
 
 void Robot_man::Move()
 {
-	if (position.x<original_pos.x+100)
+	if (one)
 	{
-		position.x = original_pos.x + (float)path2.GetCurrentPosition(&animation).x;
-		position.y = original_pos.y + (float)path2.GetCurrentPosition(&animation).y;
-		counter++;
+		if (wave > 1.0f)
+			one = false;
+		else
+			wave += 0.05f;
 	}
-	
+	else
+	{
+		if (wave < -1.0f)
+			one = true;
+		else
+			wave -= 0.05f;
+	}
 
+	position.x = original_pos.x+ (25.0f * sinf(wave)*5);
 }
 

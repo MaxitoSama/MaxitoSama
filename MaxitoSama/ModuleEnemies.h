@@ -6,7 +6,7 @@
 #include "p2Point.h"
 #include "Enemy.h"
 
-#define MAX_ENEMIES 10000
+#define MAX_ENEMIES 10
 #define ENEMY_BULLET_SPEED 1
 #define ENEMY_SHOT_DELAY 150
 #define ENEMY_GRENADE_DELAY 400
