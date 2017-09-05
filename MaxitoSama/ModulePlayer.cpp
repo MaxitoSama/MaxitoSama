@@ -1,3 +1,4 @@
+#include <iostream>
 #include <math.h>
 #include "Globals.h"
 #include "Application.h"
@@ -17,6 +18,7 @@
 #include "ModuleEnemies.h"
 #include "UI.h"
 
+using namespace std;
 
 	
 ModulePlayer::ModulePlayer()
@@ -134,6 +136,8 @@ update_status ModulePlayer::Update()
 {
 	SDL_Event e;
 	speed = 2;
+	SDL_Rect Potato= { 128,717,49,56 };
+	SDL_Rect Potato_2 = { ((SCREEN_WIDTH*SCREEN_SIZE) / 2) - (23 * SCREEN_SIZE),position.y*SCREEN_SIZE - 35 * SCREEN_SIZE,100,100 };
 
 	//LEFT
 	if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT)
@@ -195,6 +199,7 @@ update_status ModulePlayer::Update()
 	//SHOT 
 	
 	shot();
+	angle();
 	
 	while (SDL_PollEvent(&e))
 	{
@@ -297,7 +302,8 @@ update_status ModulePlayer::Update()
 	// Player Colliders Position
 	Player_Coll->SetPos(position.x, position.y);
 
-
+	//Rotate texture
+	SDL_RenderCopyEx(App->render->renderer, graphics,&Potato,&Potato_2,angle(),NULL, SDL_FLIP_NONE);
 	// Draw everything --------------------------------------
 	App->render->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
 	
@@ -365,6 +371,7 @@ void ModulePlayer::shot() {
 	//Changing the focus of the mouse (0,0) by default
 	x = x - ((SCREEN_WIDTH*SCREEN_SIZE)/2) - (23*SCREEN_SIZE);
 	y = y - position.y*SCREEN_SIZE -35* SCREEN_SIZE;
+	LOG("La X=%d i la Y=%d",x,y);
 	
 	//The direction of the bullet is the module of the new mouse position
 	App->particles->bullet.speed.y = y/sqrt(x*x+y*y)*5;
@@ -388,3 +395,49 @@ void ModulePlayer::shot() {
 	}
 }
 
+float ModulePlayer::angle()
+{
+	int x, y;
+	float div;
+	float angle_rad;
+	float angle;
+
+	// Taking the Position of the mouse
+	SDL_GetMouseState(&x, &y);
+
+	//Changing the focus of the mouse (0,0) by default
+	x = x - ((SCREEN_WIDTH*SCREEN_SIZE) / 2) - (23 * SCREEN_SIZE);
+	y = y - position.y*SCREEN_SIZE - 35 * SCREEN_SIZE;
+	LOG("La X=%d i la Y=%d", x, y);
+
+
+	//Obtaining the angle
+	if (x >0 && y>0) {
+		div = ((float)y / (float)x);
+		angle_rad = atan(div);
+		angle = angle_rad * 57.2957795;
+	}
+	if (x <0 && y>0) {
+		div = ((float)x / (float)y);
+		angle_rad = atan(div);
+		angle = (angle_rad * 57.2957795*-1)+90;
+	}
+	if (x <0 && y<0) {
+		div = ((float)y / (float)x);
+		angle_rad = atan(div);
+		angle = (angle_rad * 57.2957795)+180;
+	}
+	if (x >0 && y<0) {
+		div = ((float)x / (float)y);
+		angle_rad = atan(div);
+		angle = (angle_rad * 57.2957795*-1)+270;
+	}
+	if (x == 0 && y < 0) { angle = 270; }
+	if (x == 0 && y > 0) { angle = 90; }
+	if (x < 0 && y == 0) { angle = 180; }
+	if (x > 0 && y == 0) { angle = 0; }
+	
+	LOG("El angulo es %f", angle);
+
+	return angle;
+}

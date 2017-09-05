@@ -36,12 +36,9 @@ Robot_man::Robot_man(int x, int y) : Enemy(x, y)
 
 void Robot_man::Move()
 {
-	if (one)
+	/*if (one)
 	{
-		if (wave > 1.0f)
-			one = false;
-		else
-			wave += 0.05f;
+		position.x = original_pos.x + (25.0f * sinf(wave) * 5);
 	}
 	else
 	{
@@ -51,6 +48,28 @@ void Robot_man::Move()
 			wave -= 0.05f;
 	}
 
-	position.x = original_pos.x+ (25.0f * sinf(wave)*5);
+	position.x = original_pos.x+ (25.0f * sinf(wave)*5);*/
+
+	if (one) 
+	{
+		position.x = original_pos.x + (float)path2.GetCurrentPosition(&animation).x;
+		position.y = original_pos.y + (float)path2.GetCurrentPosition(&animation).y;
+		if (position.x >= 400)
+		{
+			original_pos.x = position.x;
+			one = false;
+		}
+	}
+	else
+	{
+		position.x = original_pos.x + (float)path.GetCurrentPosition(&animation).x;
+		position.y = original_pos.y + (float)path.GetCurrentPosition(&animation).y;
+		
+		if (position.x <= 300)
+		{
+			original_pos.x = position.x;
+			one = true;
+		}
+	}
 }
 
