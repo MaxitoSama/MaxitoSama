@@ -41,6 +41,8 @@ public:
 	Animation idle_Stop_2;
 	Animation left;
 	Animation right;
+	Animation left_back;
+	Animation right_back;
 	Animation die;
 	Animation bullet_explosion;
 	Animation Scythe_Right;

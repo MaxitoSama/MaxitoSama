@@ -53,6 +53,15 @@ ModulePlayer::ModulePlayer()
 	right.loop = true;
 	right.speed = 0.1f;
 
+	//Move Right back
+	right_back.PushBack({ 172,2,42,70 });
+	right_back.PushBack({ 117,2,42,70 });
+	right_back.PushBack({ 61,2,42,70 });
+	right_back.PushBack({ 6,2,46,70 });
+
+	right_back.loop = true;
+	right_back.speed = 0.09f;
+
 	// Move Left
 	left.PushBack({ 496,317,46,70 });
 	left.PushBack({ 440,318,42,70 });
@@ -61,6 +70,16 @@ ModulePlayer::ModulePlayer()
 
 	left.loop = true;
 	left.speed = 0.1f;
+
+	//Move Left Back
+	left_back.PushBack({ 330,318,42,70 });
+	left_back.PushBack({ 385,318,42,70 });
+	left_back.PushBack({ 440,318,42,70 });
+	left_back.PushBack({ 496,317,46,70 });
+
+	left_back.loop = true;
+	left_back.speed = 0.09f;
+
 
 	//Scythe Right
 	Scythe_Right.PushBack({11,646,49,56});
@@ -143,25 +162,40 @@ update_status ModulePlayer::Update()
 	if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT)
 	{
 		position.x -= speed;
-		if (current_animation != &left)
+		//The direccion changes with the position of the mouse
+		if (current_animation != &left && angle()>=90 && angle()<270)
 		{
 			left.Reset();
 			current_animation = &left;
+			player_last_direction = LEFT;
+		}
+		if (current_animation != &right_back && (angle() >= 270 || angle()<90))
+		{
+			right_back.Reset();
+			current_animation = &right_back;
+			player_last_direction = RIGHT;
 		}
 		App->render->Blit(graphics, position.x-30, position.y+15, &(Scythe_Left.GetCurrentFrame()));
-		player_last_direction = LEFT;
+		
 	}
 	//RIGHT
 	if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT)
 	{
 		position.x += speed;
-		if (current_animation != &right)
+		if (current_animation != &left_back && angle() >= 90 && angle()<270)
+		{
+			left_back.Reset();
+			current_animation = &left_back;
+			player_last_direction = LEFT;
+		}
+		if (current_animation != &right && (angle() >= 270 || angle()<90))
 		{
 			right.Reset();
 			current_animation = &right;
+			player_last_direction = RIGHT;
 		}
 		App->render->Blit(graphics, position.x+25, position.y+15, &(Scythe_Right.GetCurrentFrame()));
-		player_last_direction = RIGHT;
+		
 	}
 
 	//JUMP
