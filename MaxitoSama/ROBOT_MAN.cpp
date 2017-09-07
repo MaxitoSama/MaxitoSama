@@ -22,6 +22,11 @@ Robot_man::Robot_man(int x, int y) : Enemy(x, y)
 	moveLeft.loop = true;
 	animation = &moveLeft;
 
+	death_animation.PushBack({ 78, 102, 55, 75 });
+	death_animation.loop = false;
+	dead_animation_life = 10;
+	death = &death_animation;
+
 	path.PushBack({ -0.5f,0.0f }, 100, animation);
 	path2.PushBack({ 0.5f, 0.0f }, 100, animation);
 
